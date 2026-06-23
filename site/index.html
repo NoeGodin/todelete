@@ -27,9 +27,26 @@
       <button class="variant-tab" data-variant="v2" aria-pressed="false">B · Réseaux &amp; cohabitation</button>
       <button class="variant-tab" data-variant="v3" aria-pressed="false">C · Information &amp; altérité</button>
       <button class="variant-tab" data-variant="method" aria-pressed="false">Méthode</button>
+      <button class="learn-toggle" type="button" id="learnToggle" aria-pressed="false">Mode apprentissage</button>
       <button class="print-btn" type="button" id="printBtn" title="Imprimer / PDF">Imprimer</button>
     </div>
   </nav>
+
+  <div class="learn-bar" id="learnBar" hidden>
+    <div class="learn-bar__inner">
+      <span class="learn-bar__title">Rappel actif — masquer pour réciter, cliquer pour révéler</span>
+      <div class="learn-bar__group" role="group" aria-label="Catégories à masquer">
+        <button class="chip is-on" data-cat="author" aria-pressed="true">Auteurs</button>
+        <button class="chip is-on" data-cat="concept" aria-pressed="true">Concepts</button>
+        <button class="chip is-on" data-cat="example" aria-pressed="true">Exemples</button>
+      </div>
+      <div class="learn-bar__actions">
+        <button class="chip" id="revealAll" type="button">Tout révéler</button>
+        <button class="chip" id="hideAll" type="button">Tout masquer</button>
+        <button class="chip chip--accent" id="openCards" type="button">Cartes de révision ▸</button>
+      </div>
+    </div>
+  </div>
 
   <main id="main">
 
@@ -204,6 +221,20 @@
             <span class="gloss__label">Le résumé</span>
             <p>En bref : la vitesse ne crée pas la compréhension, l'info n'est pas la communication, et
             être connecté n'est pas être proche.</p>
+          </aside>
+        </div>
+        <div class="glossed-block">
+          <p class="para depassement">
+            Faut-il pour autant rejeter la technique et rêver d'un retour à la lenteur ? Ce serait
+            tomber dans une technophobie aussi naïve que le techno-optimisme de départ. Bien employée —
+            au service de la vérification, de la médiation et de la relation —, la vitesse peut
+            elle-même nourrir la compréhension : le problème n'est pas l'outil, mais l'absence du
+            travail humain qui devrait l'accompagner.
+          </p>
+          <aside class="gloss">
+            <span class="gloss__label">À nuancer</span>
+            <p>La technique n'est pas l'ennemie. Le souci, ce n'est pas la vitesse en soi, mais qu'on
+            oublie de faire l'effort humain de comprendre.</p>
           </aside>
         </div>
         <div class="glossed-block">
@@ -392,6 +423,19 @@
           </aside>
         </div>
         <div class="glossed-block">
+          <p class="para depassement">
+            Le réseau n'est pourtant pas à condamner en bloc : encadré et accompagné d'un véritable
+            travail de cohabitation, il crée aussi des liens réels — entraide en temps de crise,
+            maintien des diasporas, mobilisations solidaires. L'enjeu n'est donc pas de se débrancher,
+            mais de mettre la technique au service de la relation plutôt que de l'attention monétisée.
+          </p>
+          <aside class="gloss">
+            <span class="gloss__label">À nuancer</span>
+            <p>Le réseau peut aussi vraiment relier (entraide, familles éloignées). Ce qui compte,
+            c'est comment on s'en sert.</p>
+          </aside>
+        </div>
+        <div class="glossed-block">
           <p class="para ouverture">
             Reste une question neuve : à l'heure des avatars et des compagnons conversationnels animés
             par l'intelligence artificielle, qui simulent une présence et une écoute, peut-on encore
@@ -541,6 +585,19 @@
           </aside>
         </div>
         <div class="glossed-block">
+          <p class="para depassement">
+            On ne saurait pour autant opposer purement l'information à la communication : l'information
+            rapide n'est pas l'ennemie du lien, elle en est souvent l'amorce, dès lors qu'un travail
+            d'interprétation et d'écoute la prolonge. Ni technophobie ni techno-béatitude : la
+            transmission devient communication quand l'humain s'en empare.
+          </p>
+          <aside class="gloss">
+            <span class="gloss__label">À nuancer</span>
+            <p>L'info rapide n'est pas mauvaise en soi ; elle devient communication si on prend le
+            temps de l'interpréter et d'écouter l'autre.</p>
+          </aside>
+        </div>
+        <div class="glossed-block">
           <p class="para ouverture">
             Reste une question neuve : à l'heure des intelligences artificielles génératives, qui
             simulent l'échange et la compréhension, que devient le « risque de l'autre » qui, pour
@@ -587,7 +644,7 @@
           <li><strong>Problématique explicite dans l'introduction</strong> — sans elle, la suite n'est pas lue.</li>
           <li>Plan thématique : on retient 2 ou 3 des cinq axes, développés en <strong>deux paragraphes par axe</strong>.</li>
           <li>1 paragraphe = 1 idée (auteur SIC) + 1 exemple + 1 évaluation.</li>
-          <li>Conclusion = bilan (résumé du développement) + ouverture.</li>
+          <li>Conclusion = bilan (résumé du développement) + <strong>dépassement</strong> (nuance qui concilie) + ouverture.</li>
         </ul>
       </section>
 
@@ -627,6 +684,29 @@
     </article>
 
   </main>
+
+  <div class="flash-overlay" id="flashOverlay" hidden role="dialog" aria-modal="true" aria-label="Cartes de révision">
+    <div class="flash-panel">
+      <div class="flash-head">
+        <span class="flash-head__title">Cartes de révision <span class="flash-head__sub">· répétition espacée (Leitner)</span></span>
+        <button class="flash-close" id="flashClose" type="button" aria-label="Fermer">✕</button>
+      </div>
+      <div class="flash-progress" id="flashProgress"></div>
+      <div class="flash-card" id="flashCard">
+        <p class="flash-card__meta" id="flashMeta"></p>
+        <p class="flash-card__q" id="flashQ"></p>
+        <div class="flash-card__a" id="flashA" hidden></div>
+      </div>
+      <div class="flash-controls" id="flashReveal">
+        <button class="flash-btn flash-btn--wide" id="btnShow" type="button">Montrer la réponse <span class="kbd">Espace</span></button>
+      </div>
+      <div class="flash-controls" id="flashGrade" hidden>
+        <button class="flash-btn flash-btn--no" id="btnNo" type="button">À revoir <span class="kbd">1</span></button>
+        <button class="flash-btn flash-btn--yes" id="btnYes" type="button">Su <span class="kbd">2</span></button>
+      </div>
+      <p class="flash-foot"><button class="link-btn" id="flashReset" type="button">Réinitialiser la progression</button></p>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <p>SH04 · Commentaire de la citation de Dominique Wolton.</p>
