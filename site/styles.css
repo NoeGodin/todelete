@@ -143,6 +143,17 @@ body {
 /* résumé mode: swap full text for fragments */
 body.resume .para { display: none; }
 body.resume .resume[hidden] { display: block; }
+/* separate the bullet groups that belong to different paragraphs */
+body.resume .part .resume {
+  margin-top: 1.3rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--border);
+}
+body.resume .part .resume:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
 
 /* ---------------- Active recall (cloze) ---------------- */
 .cloze { cursor: pointer; border-radius: 3px; transition: background 120ms ease, color 120ms ease; }
