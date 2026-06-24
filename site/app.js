@@ -45,7 +45,7 @@ const buildCloze = () => {
   const sorted = TERMS.map((t) => t[0]).sort((a, b) => b.length - a.length);
   const re = new RegExp(sorted.map(escapeRe).join('|'), 'g');
 
-  document.querySelectorAll('.para, .resume li').forEach((host) => {
+  document.querySelectorAll('.resume li').forEach((host) => {
     const walker = document.createTreeWalker(host, NodeFilter.SHOW_TEXT, {
       acceptNode(n) {
         if (!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
