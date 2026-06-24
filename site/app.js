@@ -138,7 +138,7 @@ const setLearning = (on) => {
   document.body.classList.toggle('learning', on);
   learnBar.hidden = !on;
   learnToggle.setAttribute('aria-pressed', String(on));
-  learnToggle.textContent = on ? 'Quitter l’apprentissage' : 'Mode apprentissage';
+  learnToggle.textContent = on ? 'Quitter' : 'Apprentissage';
   if (on) {
     buildCloze();
     hideByCats();
@@ -319,3 +319,31 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === '1' && !ctrlGrade.hidden) grade(false);
   else if (e.key === '2' && !ctrlGrade.hidden) grade(true);
 });
+
+// ---------- Margin notes toggle ----------
+const notesToggle = document.getElementById('notesToggle');
+if (notesToggle) {
+  notesToggle.addEventListener('click', () => {
+    const hide = notesToggle.getAttribute('aria-pressed') === 'true';
+    document.body.classList.toggle('notes-hidden', hide);
+    notesToggle.setAttribute('aria-pressed', String(!hide));
+  });
+}
+
+// ---------- Reading progress bar ----------
+const progressFill = document.querySelector('#readProgress > span');
+if (progressFill) {
+  let ticking = false;
+  const update = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    progressFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
